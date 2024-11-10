@@ -1,0 +1,30 @@
+version: 2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: circleci/python:3.8  # Obraz Docker z Pythonem 3.8
+    working_directory: ~/repo  # Katalog roboczy dla kontenera
+
+jobs:
+  test:
+    executor: python-executor  # Użycie wcześniej zdefiniowanego executor
+    steps:
+      - checkout  # Pobranie kodu z repozytorium
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv  # Tworzenie wirtualnego środowiska
+            . venv/bin/activate  # Aktywowanie wirtualnego środowiska
+            pip install -r requirements.txt  # Instalacja zależności (jeśli plik requirements.txt istnieje)
+      - run:
+          name: Run unit tests
+          command: |
+            . venv/bin/activate  # Aktywowanie wirtualnego środowiska
+            python -m unittest discover  # Uruchamianie testów jednostkowych
+
+workflows:
+  version: 2
+  test-workflow:
+    jobs:
+      - test
