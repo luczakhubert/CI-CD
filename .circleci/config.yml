@@ -16,12 +16,13 @@ jobs:
           command: |
             python -m venv venv  # Tworzenie wirtualnego środowiska
             . venv/bin/activate  # Aktywowanie wirtualnego środowiska
-            pip install -r requirements.txt  # Instalacja zależności (jeśli plik requirements.txt istnieje)
+            pip install -r requirements.txt  # Instalacja zależności
+            pip freeze  # Lista zainstalowanych pakietów
       - run:
           name: Run unit tests
           command: |
             . venv/bin/activate  # Aktywowanie wirtualnego środowiska
-            python -m unittest discover  # Uruchamianie testów jednostkowych
+            python -m unittest discover -s tests  # Uruchamianie testów w folderze 'tests'
 
 workflows:
   version: 2
